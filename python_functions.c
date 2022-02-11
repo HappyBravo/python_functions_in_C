@@ -192,9 +192,12 @@ node* python_append(node *start, int value)
 	tmp = (node *)malloc(sizeof(node));
 	tmp->data = value;
 	p = start;
-    if (start == NULL)
+    if (p == NULL)
     {
-        printf("Empty List");
+        // printf("Empty List");
+        // ENTERING DATA IN AN EMPTY LIST
+        start=tmp;
+        tmp->next = NULL;
         return start;
     }
    
