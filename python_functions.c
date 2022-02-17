@@ -155,7 +155,6 @@ int python_count(node *start, int value)
 
 }
 
-
 // %%%%%%%%%%%%%% FINDING UNIQUE ELEMENTS IN ARRAY %%%%%%%%%%%%%%
 node *unique(node *head)
 {
@@ -210,23 +209,24 @@ node* python_append(node *start, int value)
 }
 
 // %%%%%%%%%%%%%% REMOVING ELEMENT FROM END OF ARRAY %%%%%%%%%%%%%%
-node* python_pop(node* start)
+int python_pop(node* start)
 {
     node *p;
     p=start;
+    int n;
     if (p == NULL)
     {
-        printf("List id empty");
+        printf("List is empty");
         exit(0);
     }
 	while(p->next->next != NULL)
 		p = p->next;
+    n = p->next->data;
     free(p->next);
     p->next = NULL;
 
-    return start;
+    return n;
 }
-
 
 // %%%%%%%%%%%%%% INSERTING ELEMENT AT GIVEN INDEX IN ARRAY %%%%%%%%%%%%%%
 node* python_insert(node *head, int value, int index)
@@ -234,12 +234,22 @@ node* python_insert(node *head, int value, int index)
     node *temp, *newNode;
     index = index-1;
     int index_c = 0;
+    int len = python_len(head);
+    
     if (head == NULL)
     {
         // ERROR MESSAGE
-        printf("List is empty");
+        printf("List is empty, Try appending values.");
         exit(0);
     }
+    
+    if (index+1 >= len) 
+    {
+        // ERROR MESSAGE
+        printf("Value not entered as index was greater than Length of array");
+        return head;
+    }
+    
     newNode = (node*)malloc(sizeof(node));
     newNode->data = value;
     
@@ -264,16 +274,12 @@ node* python_insert(node *head, int value, int index)
             temp=temp->next;
         index_c +=1;
     }
-    if (index == index_c-1) 
-    {
-        // ADDING VALUE AT THE END
-        python_append(head, value);
-    }
-    if (index >= index_c) 
-    {
-        // ERROR MESSAGE
-        printf("Value not entered as index was greater than Length of array");
-    }
+    // if (index == index_c) 
+    // {
+    //     // ADDING VALUE AT THE END
+    //     python_append(head, value);
+    // }
+    
     return head;
 }
 
@@ -283,12 +289,20 @@ node* python_remove(node* head, int index)
     node* temp, *newNode, *newhead;
     index = index-1;
     int index_c = 0;
+    int len = python_len(head);
     
     if (head == NULL)
     {
         // ERROR MESSAGE
         printf("List is empty");
         exit(0);
+    }
+
+    if (index+1 >= len) 
+    {
+        // ERROR MESSAGE
+        printf("Value not Removed as index was greater than Length of array");
+        return head;
     }
 
     newhead = head;
@@ -298,11 +312,19 @@ node* python_remove(node* head, int index)
         // REMOVING ELEMNT FROM THE BEGINNING
         newhead = head->next;
         free(head);
-        index_c += 1;          
+        index_c += 1;
+        if ((len == 1) || (len == 2))
+            return newhead;     
+    }
+
+    if (index+1 == len-1) 
+    {
+        // REMOVING ELEMENT FROM END
+        python_pop(head);
+        return head;
     }
     
     temp = newhead;
-    
     
     while((temp->next->next != NULL))
     {
@@ -315,16 +337,6 @@ node* python_remove(node* head, int index)
         else
             temp=temp->next;
         index_c += 1;
-    }
-    if (index == index_c) 
-    {
-        // REMOVING ELEMENT FROM END
-        python_pop(head);
-    }
-    if (index >= index_c) 
-    {
-        // ERROR MESSAGE
-        printf("Value not Removed as index was greater than Length of array");
     }
     return newhead;
 }
@@ -391,15 +403,21 @@ node *concat(node *head1, node *head2)
 // %%%%%%%%%%%%%% CREATES NON-EMPTY ARRAY %%%%%%%%%%%%%%
 node *create_list(int n)
 {
-    node *newNode, *temp, *head;
+    node *newNode, *temp, *head=NULL;
     int data, i;
-    
+    if (n == 0)
+    {
+        // CREATING EMPTY LIST
+        return head;
+    }
+
     head = (node*)malloc(sizeof(node));
     if (head == NULL)
     {
         printf("Error in allocating Head");
         exit(0);
     }
+    
     data = atoi(python_input("Enter the data for FIRST node : "));
     
     head->data = data;
