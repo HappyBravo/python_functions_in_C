@@ -152,7 +152,6 @@ int python_count(node *start, int value)
         temp=temp->next;
     }
     return count;
-
 }
 
 // %%%%%%%%%%%%%% FINDING UNIQUE ELEMENTS IN ARRAY %%%%%%%%%%%%%%
@@ -228,6 +227,46 @@ int python_pop(node* start)
     return n;
 }
 
+// %%%%%%%%%%%%%% FINDING INDEX OF ELEMENT %%%%%%%%%%%%%%
+int python_index(node *head, int n){
+    if (!head) return -1;
+    int indx = 0;
+    while(head){
+        if(head->data == n){
+            return indx;
+        }
+        indx++;
+        head = head->next;
+    }
+    return -1; // IF NOT FOUND
+}
+
+// %%%%%%%%%%%%%% FINDING MAXIMUM ELEMENT IN ARRAY %%%%%%%%%%%%%%
+int python_max(node *head){
+    if (!head) return 0;
+    int max = head->data;
+    while(head){
+        if(head->data > max){
+            max = head->data;
+        }
+        head = head->next;
+    }
+    return max;
+}
+
+// %%%%%%%%%%%%%% FINDING MINIMUM ELEMENT IN ARRAY %%%%%%%%%%%%%%
+int python_min(node *head){
+    if (!head) return 0;
+    int min = head->data;
+    while(head){
+        if(head->data < min){
+            min = head->data;
+        }
+        head = head->next;
+    }
+    return min;
+}
+
 // %%%%%%%%%%%%%% INSERTING ELEMENT AT GIVEN INDEX IN ARRAY %%%%%%%%%%%%%%
 node* python_insert(node *head, int value, int index)
 {
@@ -295,7 +334,8 @@ node* python_remove(node* head, int index)
     {
         // ERROR MESSAGE
         printf("List is empty");
-        exit(0);
+        return head;
+        // exit(0);
     }
 
     if (index+1 >= len) 
@@ -449,8 +489,8 @@ void printList(node *head)
     if (head == NULL)
     {
         printf("List is empty");
-        exit(0);
-        // return;
+        // exit(0);
+        return;
     }
     temp = head;
     printf("\n[");
