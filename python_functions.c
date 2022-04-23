@@ -207,6 +207,23 @@ node* python_append(node *start, int value)
 	return start;
 }
 
+// %%%%%%%%%%%%%% RETURNS ELEMENT AT INDEX 'n' IN ARRAY %%%%%%%%%%%%%%
+int python_atindex(node *head, int n){
+    int count = 0;
+    if (!head) return 0;
+    if(n > python_len(head)) printf("Invalid index !!!");
+    else{
+        while(head){
+            if (count == n){
+                return head->data;
+            head = head->next;
+            count++;
+            }
+        }
+    }
+    return 0;
+}
+
 // %%%%%%%%%%%%%% REMOVING ELEMENT FROM END OF ARRAY %%%%%%%%%%%%%%
 int python_pop(node* start)
 {
